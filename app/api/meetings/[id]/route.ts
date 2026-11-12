@@ -9,10 +9,10 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const meetingId = Number(id);
 
     if (!Number.isInteger(meetingId) || meetingId <= 0) {
-        return NextResponse.json({
-            error: "Invalid meeting ID",
-            status: 400
-        });
+        return NextResponse.json(
+            { error: "Invalid meeting ID" },
+            {status: 400}
+        );
     }
 
     const meeting = getMeetingById(meetingId);

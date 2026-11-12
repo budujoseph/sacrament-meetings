@@ -51,7 +51,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
 
             <section  className="rounded-xl mt-2 border border-gray-200 p-6 shadow-sm">
                 <h2 className="mb-3 text-lg font-bold">Opening Hymn</h2>
-                <p className="text-white">
+                <p className="text-gray-700">
                     {meeting.openingHymn.number} - {meeting.openingHymn.title}
                 </p>
             </section>
