@@ -3,11 +3,11 @@ import Link from "next/link";
 import { getMeetings } from "@/lib/meetings-db";
 import MeetingCard from "@/Components/MeetingCard";
 
-export default function HomePage() {
-  const meetings = getMeetings();
+export default async function HomePage() {
+  const meetings = await getMeetings();
 
   // Get the latest three meetings
-  const recentMeetings = [...meetings]
+  const recentMeetings = await [...meetings]
     .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 3);
 
@@ -39,7 +39,7 @@ export default function HomePage() {
 
           <Link
             href="/meetings"
-            className="font-semibold text-primary hover:underline"
+            className="font-semibold text-primary hover:underline bg-white p-4 m-2 rounded-full hover:bg-slate-300"
           >
             View All →
           </Link>

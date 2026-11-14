@@ -141,8 +141,7 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 <button
                 type="button"
                 onClick ={() => window.print()}
-                 className="w-full rounded-lg bg-blue-700 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-blue-800 
-                            focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
+                 className="w-full rounded-lg bg-blue-700 px-6 py-3 font-semibold text-white shadow-md transition hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 sm:w-auto"
                 >
                 Print Meeting Details
                 </button>
