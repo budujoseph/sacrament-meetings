@@ -27,7 +27,7 @@ export function Pagination({ totalPages }: { totalPages: number }) {
           Previous
         </Link>
       ) : (
-        <span className="cursor-not-allowed rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-400">
+        <span className="cursor-not-allowed rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-600">
           Previous
         </span>
       )}
@@ -51,7 +51,7 @@ export function Pagination({ totalPages }: { totalPages: number }) {
           Next
         </Link>
       ) : (
-        <span className="cursor-not-allowed rounded-lg border border-gray-200 px-4 py-2 text-sm text-gray-400">
+        <span className="cursor-not-allowed rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-600">
           Next
         </span>
       )}

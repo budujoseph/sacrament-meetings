@@ -1,28 +1,28 @@
 import MeetingDetail from "@/Components/MeetingDetail";
-import { getMeetings } from "@/lib/meetings-db";
+import { getMeetingByDate } from "@/lib/meetings-db";
 
 export default async function CurrentMeetingPage() {
     const today = new Date();
-    const sunday = new Date(today);
-
-    sunday.setDate(today.getDate() - today.getDay());
-
-    const currentSunday = [
-        sunday.getFullYear(),
-        String(sunday.getMonth() + 1).padStart(2, "0"),
-        String(sunday.getDate()).padStart(2, "0"),
+    const daysUntilSunday = (7 - today.getUTCDay()) % 7;
+    const upcomingSunday = new Date(
+        Date.UTC(
+            today.getUTCFullYear(),
+            today.getUTCMonth(),
+            today.getUTCDate() + daysUntilSunday
+        )
+    );
+    const upcomingSundayDate = [
+        upcomingSunday.getUTCFullYear(),
+        String(upcomingSunday.getUTCMonth() + 1).padStart(2, "0"),
+        String(upcomingSunday.getUTCDate()).padStart(2, "0"),
     ].join("-");
 
-    const meetings = await getMeetings();
-
-    const currentMeeting = meetings.find(
-        (meeting) => meeting.date === currentSunday
-    );
+    const currentMeeting = await getMeetingByDate(upcomingSundayDate);
 
     if (!currentMeeting) {
         return (
-            <p className="text-center text-slate-300">
-                No meeting found for this Sunday.
+            <p className="text-center text-slate-600">
+                No meeting found for Sunday, {upcomingSundayDate}.
             </p>
         );
     }

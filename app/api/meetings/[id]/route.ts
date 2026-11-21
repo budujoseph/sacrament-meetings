@@ -13,16 +13,24 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         );
     }
 
-    const meeting = await getMeetingById(meetingId);
-    if (!meeting) {
+    try {
+        const meeting = await getMeetingById(meetingId);
+        if (!meeting) {
+            return NextResponse.json(
+                { error: "Meeting not found" },
+                { status: 404 }
+            );
+        }
+
         return NextResponse.json(
-            { error: "Meeting not found" },
-            { status: 404 }
+            meeting,
+            { status: 200 }
+        );
+    } catch (error) {
+        console.error("Error fetching meeting:", error);
+        return NextResponse.json(
+            { error: "Failed to fetch meeting" },
+            { status: 500 }
         );
     }
-
-    return NextResponse.json(
-        meeting,
-        { status: 200 }
-    );
 }

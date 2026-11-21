@@ -9,12 +9,12 @@ export default function Header() {
 
   return (
       <header className="bg-blue-600 text-white p-4">
-          <div className="flex justify-center items-center">
-            <div className="container mx-auto">
+          <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-4 lg:flex-row lg:justify-between">
+            <div className="w-full text-center lg:text-left">
                 <h1 className="text-2xl font-bold font-playfair-display">Asamankese Ward</h1>
                 <p className="text-lg">{ currentDate }</p>
             </div>
-            <div>
+            <div className="w-full lg:w-auto">
               <NavLinks />
             </div>
           </div>

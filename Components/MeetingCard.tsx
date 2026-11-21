@@ -1,11 +1,16 @@
 import Link from 'next/link';
 import type { SacramentMeeting } from '@/lib/types';
+import DeleteMeetingButton from './DeleteMeetingButton';
 
 interface MeetingCardProps {
   meeting: SacramentMeeting;
+  showManagementActions?: boolean;
 }
 
-export default function MeetingCard({ meeting }: MeetingCardProps) {
+export default function MeetingCard({
+    meeting,
+    showManagementActions = false,
+}: MeetingCardProps) {
     const formattedDate = new Date(meeting.date).toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
@@ -57,9 +62,25 @@ export default function MeetingCard({ meeting }: MeetingCardProps) {
                 </p>
            
             </div>
-            <Link href={`/meetings/${meeting.id}`} className="mt-4 inline-block rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 transition-colors duration-300">
-                View Meeting Details
-            </Link>
+            <div className="mt-4 flex flex-wrap gap-2">
+                <Link
+                    href={`/meetings/${meeting.id}`}
+                    className="inline-flex rounded-lg bg-blue-800 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-blue-900 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                >
+                    View Meeting Details
+                </Link>
+                {showManagementActions && (
+                    <>
+                        <Link
+                            href={`/meetings/${meeting.id}/edit`}
+                            className="inline-flex rounded-lg bg-amber-700 px-4 py-2 text-white transition-colors duration-300 hover:bg-amber-800"
+                        >
+                            Update Meeting
+                        </Link>
+                        <DeleteMeetingButton meetingId={meeting.id} />
+                    </>
+                )}
+            </div>
         </article>
     )
 }

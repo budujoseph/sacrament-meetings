@@ -1,6 +1,8 @@
 'use client'
 
+import Link from 'next/link';
 import type { SacramentMeeting } from '@/lib/types';
+import DeleteMeetingButton from './DeleteMeetingButton';
 
 interface MeetingDetailProps {
   meeting: SacramentMeeting;
@@ -16,32 +18,36 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
     });
 
     return (
-        <article className='mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8'>
-            <header  className='mb-8 overflow-hidden rounded-2xl bg-gradient-to-r from-blue-900 to-blue-700 p-6 text-white shadow-lg sm:p-10 font-bold'>
-                <h1 className="mb-3 text-3xl font-bold sm:text-4xl">
+        <article className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+            <header className="mb-6 overflow-hidden rounded-xl border border-slate-800 bg-slate-900 p-6 text-white shadow-lg sm:p-8">
+                <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-blue-300">
+                    {meeting.meetingType} meeting
+                </p>
+                <h1 className="font-playfair-display text-3xl font-bold sm:text-4xl">
                     Sacrament Meeting
                 </h1>
-                <p className="text-blue-100">
-                    {formattedDate}
-                </p>
-                <p className="mt-4 inline-block rounded-full bg-white/20 px-4 py-1.5 text-sm font-medium capitalize">
-                    {meeting.meetingType} Meeting
-                </p>
+                <p className="mt-3 text-slate-300">{formattedDate}</p>
             </header>
 
-            <section className="mb-6 grid gap-4 sm:grid-cols-2">
-                <p className="mb-6 grid gap-4 sm:grid-cols-2">
-                    <strong  className="text-sm uppercase tracking-wide text-gray-500">Presiding:</strong> {meeting.presiding}
-                </p>
-                <p className="block mt-2 text-lg font-semibold text-gray-500">
-                    <strong  className="text-sm uppercase tracking-wide text-gray-500">Conducting:</strong> {meeting.conducting}
-                </p>
-            </section>
+            <dl className="mb-6 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-lg border border-slate-700 bg-slate-800 p-5">
+                    <dt className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        Presiding
+                    </dt>
+                    <dd className="mt-1 font-semibold text-white">{meeting.presiding}</dd>
+                </div>
+                <div className="rounded-lg border border-slate-700 bg-slate-800 p-5">
+                    <dt className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                        Conducting
+                    </dt>
+                    <dd className="mt-1 font-semibold text-white">{meeting.conducting}</dd>
+                </div>
+            </dl>
 
             {meeting.announcements && meeting.announcements.length > 0 && (
-                <section className="rounded-xl border p-6">
-                    <h2 className="mb-3 text-xl font-bold">Announcements</h2>
-                    <ul className="list-inside list-disc space-y-2">
+                <section className="mb-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                    <h2 className="mb-3 text-xl font-bold text-blue-900">Announcements</h2>
+                    <ul className="list-disc space-y-2 pl-5 text-slate-700">
                         {meeting.announcements.map((announcement, index) => (
                             <li key={index}>{announcement}</li>
                         ))}
@@ -49,93 +55,82 @@ export default function MeetingDetail({ meeting }: MeetingDetailProps) {
                 </section>
             )}
 
-            <section  className="rounded-xl mt-2 border border-gray-200 p-6 shadow-sm">
-                <h2 className="mb-3 text-lg font-bold">Opening Hymn</h2>
-                <p className="text-gray-700">
-                    {meeting.openingHymn.number} - {meeting.openingHymn.title}
-                </p>
-            </section>
+            <div className="space-y-4">
+                <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                    <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500">Opening Hymn</h2>
+                    <p className="font-semibold text-slate-900">{meeting.openingHymn.number} - {meeting.openingHymn.title}</p>
+                </section>
+                <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                    <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500">Opening Prayer</h2>
+                    <p className="font-semibold text-slate-900">{meeting.openingPrayer}</p>
+                </section>
+                <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                    <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500">Sacrament Hymn</h2>
+                    <p className="font-semibold text-slate-900">{meeting.sacramentHymn.number} - {meeting.sacramentHymn.title}</p>
+                </section>
+                <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                    <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500">Closing Hymn</h2>
+                    <p className="font-semibold text-slate-900">{meeting.closingHymn.number} - {meeting.closingHymn.title}</p>
+                </section>
+            </div>
 
-            <section className="rounded-xl mt-2 border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="mb-3 text-lg font-bold text-blue-900">Opening Prayer</h2>
-                <p className="text-gray-700">
-                    {meeting.openingPrayer}
-                </p>
-            </section>
-
-            <section className="rounded-xl mt-2 border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="mb-3 text-lg font-bold text-blue-900">Ward Business</h2>
-                {meeting.wardBusiness.length > 0 ? (
-                    <ul className="list-inside list-disc space-y-2 text-gray-700">
-                        {meeting.wardBusiness.map((item, index) => (
-                            <li key={index}>{item.description}</li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p className="text-sm italic text-gray-500 text-muted">No ward business to report.</p>
-                )}
-            </section>
-
-            <section className="rounded-xl mt-2 border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="mb-3 text-lg font-bold text-blue-900">Stake Business</h2>
-                <p className="text-gray-700">
-                    {meeting.stakeBusiness ? 'There is stake business to report.' : 'No stake business to report.'}
-                </p>
-            </section>
-
-            <section  className="rounded-xl mt-2 border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="mb-3 text-lg font-bold text-blue-900">Sacrament Hymn</h2>
-                <p className="text-gray-700">
-                    {meeting.sacramentHymn.number} - {meeting.sacramentHymn.title}
-                </p>
-            </section>
-
-            <section className="rounded-xl mt-2 border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="mb-4 text-lg font-bold text-blue-900">Speakers and Musical numbers</h2>
-                <div className="space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0">
-                    {meeting.speakers.map((item, index) => (
-                        <div key={index} className="rounded-lg bg-gray-50 p-4">
-                            {item.type === "speaker" ? (
-                             <>
-                                <p className="font-semibold text-gray-900">
-                                    Speaker: {item.name}
-                                </p>
-
-                                <p className="text-muted mt-1 text-sm text-gray-600">
-                                    Topic: {item.topic}
-                                </p>
-                                 </>
-                            ) : (
-                             <>
-                                <p className="font-semibold text-gray-900">
-                                    Musical Number: {item.name}
-                                </p>
-
-                                {item.topic && (
-                                    <p className="text-muted mt-1 text-sm text-gray-600">
-                                        {item.topic}
-                                    </p>
-                                )}
-                            </>
-                        )}
-                    </div>
-                ))}
+            <section className="mt-6 space-y-4">
+                <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                    <h2 className="mb-3 text-lg font-bold text-blue-900">Ward Business</h2>
+                    {meeting.wardBusiness.length > 0 ? (
+                        <ul className="list-disc space-y-2 pl-5 text-slate-700">
+                            {meeting.wardBusiness.map((item, index) => (
+                                <li key={index}>{item.description}</li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="text-sm italic text-slate-500">No ward business to report.</p>
+                    )}
+                </div>
+                <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                    <h2 className="mb-3 text-lg font-bold text-blue-900">Stake Business</h2>
+                    <p className="text-slate-700">
+                        {meeting.stakeBusiness
+                            ? 'There is stake business to report.'
+                            : 'No stake business to report.'}
+                    </p>
                 </div>
             </section>
 
-            <section  className="rounded-xl mt-2 border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="mb-3 text-lg font-bold text-blue-900">Closing Hymn</h2>
-                <p  className="text-gray-700">
-                    {meeting.closingHymn.number} - {meeting.closingHymn.title}
-                </p>
+            <section className="mt-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <h2 className="mb-4 text-xl font-bold text-blue-900">Speakers and Musical Numbers</h2>
+                {meeting.speakers.length > 0 ? (
+                    <div className="space-y-4">
+                        {meeting.speakers.map((item, index) => (
+                            <div key={index} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                                <p className="font-semibold text-slate-900">
+                                    {item.type === 'speaker' ? 'Speaker' : 'Musical Number'}: {item.name}
+                                </p>
+                                {item.topic && (
+                                    <p className="mt-1 text-sm text-slate-600">Topic: {item.topic}</p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p className="text-sm italic text-slate-500">No speakers or musical numbers listed.</p>
+                )}
             </section>
 
-            <section className="rounded-xl mt-2 border border-gray-200 bg-white p-6 shadow-sm">
-                <h2 className="mb-3 text-lg font-bold text-blue-900">Closing Prayer</h2>
-                <p className="text-gray-700">
-                    {meeting.closingPrayer}
-                </p>
+            <section className="mt-6 rounded-xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+                <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500">Closing Prayer</h2>
+                <p className="font-semibold text-slate-900">{meeting.closingPrayer}</p>
             </section>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-3 print:hidden">
+                <Link
+                    href={`/meetings/${meeting.id}/edit`}
+                    className="inline-flex rounded-lg bg-amber-700 px-6 py-3 font-semibold text-white transition hover:bg-amber-800"
+                >
+                    Update Meeting
+                </Link>
+                <DeleteMeetingButton meetingId={meeting.id} />
+            </div>
 
             <div className="flex justify-center pt-4 print:hidden">
                 <button

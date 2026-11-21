@@ -27,7 +27,7 @@ export function MeetingSearch() {
             placeholder="Search by speaker, leader, or meeting type..."
             defaultValue={searchParams.get(`query`)?.toString()}
             onChange={(e) => handleSearch(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm outline-none transition placeholder:text-gray-400 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 sm:max-w-md"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm outline-none transition placeholder:text-gray-600 hover:border-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 sm:max-w-md"
         />
         </div>
        

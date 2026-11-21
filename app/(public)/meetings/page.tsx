@@ -19,7 +19,7 @@ export default async function MeetingsPage(props: {
     <div>
       <MeetingSearch />
       {meetings.map((m) => (
-        <MeetingCard key={m.id} meeting={m} />
+        <MeetingCard key={m.id} meeting={m} showManagementActions />
       ))}
       <Pagination totalPages={totalPages} />
     </div>

@@ -1,15 +1,12 @@
 
 import Link from "next/link";
-import { getMeetings } from "@/lib/meetings-db";
+import { getRecentMeetings } from "@/lib/meetings-db";
 import MeetingCard from "@/Components/MeetingCard";
 
-export default async function HomePage() {
-  const meetings = await getMeetings();
+export const revalidate = 60;
 
-  // Get the latest three meetings
-  const recentMeetings = await [...meetings]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .slice(0, 3);
+export default async function HomePage() {
+  const recentMeetings = await getRecentMeetings(3);
 
   return (
     <div className="space-y-12">
@@ -61,5 +58,5 @@ export default async function HomePage() {
         )}
       </section>
     </div>
-  );
+  ); 
 }
